@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   activeIconBox: {
-    backgroundColor: '#4F46E5',
-    shadowColor: '#4F46E5',
+    backgroundColor: '#2563EB',
+    shadowColor: '#2563EB',
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 4,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   activeLabel: {
-    color: '#4F46E5',
+    color: '#2563EB',
     fontWeight: '600',
   },
 });
