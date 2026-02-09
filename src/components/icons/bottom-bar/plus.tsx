@@ -1,16 +1,31 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  strokeWidth="2"
-  strokeLinecap="round"
-  strokeLinejoin="round"
-  className="icon icon-tabler icons-tabler-outline icon-tabler-plus"
->
-  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-  <path d="M12 5l0 14" />
-  <path d="M5 12l14 0" />
-</svg>;
+import Svg, { Path } from 'react-native-svg';
+
+type PlusIconProps = {
+  size?: number;
+  color?: string;
+};
+
+export default function PlusIcon({
+  size = 24,
+  color = '#141B34',
+}: PlusIconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <Path
+        d="M12 5l0 14"
+        stroke={color}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M5 12l14 0"
+        stroke={color}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
