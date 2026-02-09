@@ -7,15 +7,17 @@ import {
   View,
 } from 'react-native';
 
-import HomeOutline from '../components/icons/bottom-bar/outline/home';
-import MessageOutline from '../components/icons/bottom-bar/outline/message';
-import UserOutline from '../components/icons/bottom-bar/outline/user';
-import WalletOutline from '../components/icons/bottom-bar/outline/wallet';
-import PlusIcon from '../components/icons/bottom-bar/plus';
-import HomeFilled from '../components/icons/bottom-bar/solid/home';
-import MessageSolid from '../components/icons/bottom-bar/solid/message';
-import UserSolid from '../components/icons/bottom-bar/solid/user';
-import WalletSolid from '../components/icons/bottom-bar/solid/wallet';
+import {
+  HomeOutline,
+  HomeSolid,
+  MessageOutline,
+  MessageSolid,
+  PlusIcon,
+  UserOutline,
+  UserSolid,
+  WalletOutline,
+  WalletSolid,
+} from '../components/icons/icons';
 
 interface IconDef {
   id: string;
@@ -25,7 +27,7 @@ interface IconDef {
 }
 
 const icons: IconDef[] = [
-  { id: 'home', name: 'Home', Outline: HomeOutline, Solid: HomeFilled },
+  { id: 'home', name: 'Home', Outline: HomeOutline, Solid: HomeSolid },
   {
     id: 'message',
     name: 'Message',
@@ -57,10 +59,10 @@ export default function Index() {
               style={styles.iconWrapper}
               onPress={() => setActiveIcon(icon.id)}
             >
-              <View style={styles.iconBox}>
+              <View style={[styles.iconBox, isActive && styles.activeIconBox]}>
                 <IconComponent
                   size={40}
-                  color={isActive ? '#4F46E5' : '#64748B'}
+                  color={isActive ? '#FFFFFF' : '#64748B'}
                 />
               </View>
               <Text style={[styles.iconLabel, isActive && styles.activeLabel]}>
@@ -124,6 +126,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
+  },
+  activeIconBox: {
+    backgroundColor: '#4F46E5',
+    shadowColor: '#4F46E5',
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   iconLabel: {
     fontSize: 12,
