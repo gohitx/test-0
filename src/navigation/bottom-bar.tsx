@@ -9,7 +9,7 @@ import PlusButton from './plus/PlusButton';
 import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS, } from './config';
 
 // ── Animated Tab ────────────────────────────────────────
-function TabButton({
+const TabButton = React.memo(function TabButton({
   tab,
   focused,
   onPress,
@@ -109,7 +109,7 @@ function TabButton({
       </View>
     </Pressable>
   );
-}
+});
 
 // ── Bottom Bar ──────────────────────────────────────────
 export default function BottomBar({
