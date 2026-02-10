@@ -1,94 +1,12 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import PlusButton from './plus/PlusButton';
 
-import {
-  HomeOutline,
-  HomeSolid,
-  MessageOutline,
-  MessageSolid,
-  PlusIcon,
-  UserOutline,
-  UserSolid,
-  WalletOutline,
-  WalletSolid,
-} from '../components/icons/icons';
-
-// ── Design tokens ───────────────────────────────────────
-const BAR_BG = '#101014';
-const ACTIVE_PILL_BG = '#8383837D';
-const ACTIVE_COLOR = '#FFFFFF';
-const INACTIVE_COLOR = '#6B6F80';
-const ICON_SIZE = 22;
-const BAR_HEIGHT = 60;
-const PILL_H = 40;
-const PILL_RADIUS = 20;
-const ANIM_DURATION = 280;
-const ANIM_EASING = Easing.bezier(0.4, 0, 0.2, 1);
-
-// ── Tab config ──────────────────────────────────────────
-type TabSide = 'left' | 'center' | 'right';
-
-interface TabDef {
-  route: string;
-  label: string;
-  hasLabel: boolean;
-  side: TabSide;
-  OutlineIcon: React.ComponentType<{ size?: number; color?: string }>;
-  SolidIcon: React.ComponentType<{ size?: number; color?: string }>;
-}
-
-const TABS: TabDef[] = [
-  {
-    route: 'index',
-    label: 'Home',
-    hasLabel: true,
-    side: 'left',
-    OutlineIcon: HomeOutline,
-    SolidIcon: HomeSolid,
-  },
-  {
-    route: 'message',
-    label: 'Chat',
-    hasLabel: true,
-    side: 'left',
-    OutlineIcon: MessageOutline,
-    SolidIcon: MessageSolid,
-  },
-  {
-    route: 'plus',
-    label: 'Create',
-    hasLabel: false,
-    side: 'center',
-    OutlineIcon: PlusIcon,
-    SolidIcon: PlusIcon,
-  },
-  {
-    route: 'wallet',
-    label: 'Wallet',
-    hasLabel: true,
-    side: 'right',
-    OutlineIcon: WalletOutline,
-    SolidIcon: WalletSolid,
-  },
-  {
-    route: 'user',
-    label: 'me',
-    hasLabel: true,
-    side: 'right',
-    OutlineIcon: UserOutline,
-    SolidIcon: UserSolid,
-  },
-];
+import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SIZE, INACTIVE_COLOR, PILL_H, PILL_RADIUS, TabDef, TABS, } from './config';
 
 // ── Animated Tab ────────────────────────────────────────
 function TabButton({
