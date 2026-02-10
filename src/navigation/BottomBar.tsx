@@ -19,7 +19,7 @@ import {
   UserSolid,
   WalletOutline,
   WalletSolid,
-} from './icons/icons';
+} from '../components/icons/icons';
 
 // ── Design tokens ───────────────────────────────────────
 const BAR_BG = '#101014';
