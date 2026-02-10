@@ -1,0 +1,6 @@
+# Prettier ignore file
+
+# Prettier ignore folders
+```ignore
+src/navigation/plus/
+```
