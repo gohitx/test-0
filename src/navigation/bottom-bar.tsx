@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import PlusButton from './plus/PlusButton';
 
-import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SIZE, INACTIVE_COLOR, PILL_H, PILL_RADIUS, TabDef, TABS, } from './config';
+import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS, } from './config';
 
 // ── Animated Tab ────────────────────────────────────────
 function TabButton({
@@ -39,11 +39,11 @@ function TabButton({
 
     if (focused) {
       iconScale.value = withTiming(
-        1.1,
-        { duration: 120, easing: ANIM_EASING },
+        ICON_SCALE_BOUNCE,
+        { duration: ANIM_BOUNCE_IN, easing: ANIM_EASING },
         () => {
           iconScale.value = withTiming(1, {
-            duration: 150,
+            duration: ANIM_BOUNCE_OUT,
             easing: ANIM_EASING,
           });
         },
@@ -53,14 +53,14 @@ function TabButton({
 
   const pillStyle = useAnimatedStyle(() => ({
     opacity: pillOpacity.value,
-    transform: [{ scaleX: 0.7 + 0.3 * pillOpacity.value }],
+    transform: [{ scaleX: PILL_SCALE_INACTIVE + PILL_SCALE_ACTIVE_ADD * pillOpacity.value }],
   }));
 
   const labelStyle = useAnimatedStyle(() => {
-    const spacing = labelWidth.value * 7;
+    const spacing = labelWidth.value * LABEL_SPACING;
     return {
       opacity: labelWidth.value,
-      maxWidth: labelWidth.value * 70,
+      maxWidth: labelWidth.value * LABEL_MAX_WIDTH,
       // Right-side tabs: margin on the right (label is before icon)
       // Left-side tabs: margin on the left (label is after icon)
       marginLeft: isRight ? 0 : spacing,
@@ -126,7 +126,7 @@ export default function BottomBar({
 
       <View style={styles.bar}>
         {state.routes.map((route, index) => {
-          const tab = TABS.find(t => t.route === route.name);
+          const tab = TABS.find(t => t.route === (route.name as TabRoute));
           if (!tab) return null;
 
           const focused = state.index === index;

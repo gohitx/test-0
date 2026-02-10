@@ -12,14 +12,22 @@ export const ICON_SIZE = 22;
 export const BAR_HEIGHT = 60;
 export const PILL_H = 40;
 export const PILL_RADIUS = 20;
+export const PILL_SCALE_INACTIVE = 0.7;
+export const PILL_SCALE_ACTIVE_ADD = 0.3; // Adds up to 1.0 when active
+export const LABEL_SPACING = 7;
+export const LABEL_MAX_WIDTH = 70;
+export const ICON_SCALE_BOUNCE = 1.1;
+export const ANIM_BOUNCE_IN = 120;
+export const ANIM_BOUNCE_OUT = 150;
 export const ANIM_DURATION = 280;
 export const ANIM_EASING = Easing.bezier(0.4, 0, 0.2, 1);
 
 // ── Tab config ──────────────────────────────────────────
 export type TabSide = 'left' | 'center' | 'right';
+export type TabRoute = 'index' | 'message' | 'plus' | 'wallet' | 'user';
 
 export interface TabDef {
-  route: string;
+  route: TabRoute;
   label: string;
   hasLabel: boolean;
   side: TabSide;
@@ -30,7 +38,7 @@ export interface TabDef {
 export const TABS: TabDef[] = [
   {
     route: 'index',
-    label: 'Hello',
+    label: 'Home',
     hasLabel: true,
     side: 'left',
     OutlineIcon: HomeOutline,
