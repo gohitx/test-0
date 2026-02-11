@@ -1,8 +1,9 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Svg, { Path } from 'react-native-svg';
 
 import PlusButton from './plus/PlusButton';
 
@@ -147,11 +148,27 @@ export default function BottomBar({
   navigation,
 }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
 
   return (
     <View style={[styles.barOuter, { paddingBottom: insets.bottom }]}>
-      {/* Subtle separator */}
-      <View style={styles.separator} />
+      {/* Wave SVG Background top */}
+      <View style={styles.waveContainer}>
+        <Svg height={15} width={width}>
+          {/* Background Shape (Filled) */}
+          <Path
+            d={`M 0 15 L 0 10 C ${width * 0.25} 5, ${width * 0.25} 15, ${width * 0.5} 10 C ${width * 0.75} 5, ${width * 0.75} 15, ${width} 10 L ${width} 15 Z`}
+            fill={BAR_BG}
+            stroke="none"
+          />
+          <Path
+            d={`M 0 10 C ${width * 0.25} 5, ${width * 0.25} 15, ${width * 0.5} 10 C ${width * 0.75} 5, ${width * 0.75} 15, ${width} 10`}
+            fill="none"
+            stroke="rgba(255, 255, 255, 0.32)"
+            strokeWidth={1}
+          />
+        </Svg>
+      </View>
 
       <View style={styles.bar}>
         {state.routes.map((route, index) => {
@@ -195,11 +212,14 @@ export default function BottomBar({
 // ── Styles ──────────────────────────────────────────────
 const styles = StyleSheet.create({
   barOuter: {
-    backgroundColor: BAR_BG,
+    // Transparent background so wave is the only top edge
+    backgroundColor: 'transparent',
+    // We need to ensure the bottom part is filled
   },
-  separator: {
-    height: 0.5,
-    backgroundColor: '#76767665',
+  waveContainer: {
+    height: 15,
+    width: '100%',
+    zIndex: 1, // Ensure wave is above content if needed, though usually just visual
   },
   bar: {
     flexDirection: 'row',
@@ -208,6 +228,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     paddingHorizontal: 10,
+    overflow: 'visible', // Allow PlusButton to float outside
   },
   tabTouchable: {
     flex: 1,

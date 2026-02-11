@@ -4,7 +4,7 @@ import { screenStyles } from '../../styles/theme/screen';
 export default function HomeScreen() {
   return (
     <View style={screenStyles.container}>
-      <Text style={screenStyles.title}>Home 123</Text>
+      <Text style={screenStyles.title}>Home screen</Text>
     </View>
   );
 }
