@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../styles/global.css';
-import { SCREEN_BG } from '../styles/screen';
+import { SCREEN_BG } from '../styles/theme/screen';
 
 export default function RootLayout() {
   return (
