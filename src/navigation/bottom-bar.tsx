@@ -162,11 +162,11 @@ export default function BottomBar({
             stroke="none"
           />
           <Path
-            d={`M 0 15 L ${width / 2 - 75} 15 C ${width / 2 - 35} 15, ${width / 2 - 35} 0, ${width / 2} 0 C ${width / 2 + 35} 0, ${width / 2 + 35} 15, ${width / 2 + 75} 15 L ${width} 15`}
+            d={`M 0 15 L ${width / 3 - 75} 15 C ${width / 2 - 35} 15, ${width / 2 - 35} 0, ${width / 2} 0 C ${width / 2 + 35} 0, ${width / 2 + 35} 15, ${width / 3 * 2 + 75} 15 L ${width} 15`}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.15)"
+            stroke="rgba(255, 255, 255, 0.14)"
             strokeWidth={1}
-          />
+          /> 
         </Svg>
       </View>
 
