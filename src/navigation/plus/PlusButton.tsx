@@ -3,14 +3,11 @@ import { Pressable, StyleSheet } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { PlusIcon } from '../../components/icons/icons';
-import { ANIM_EASING } from '../config';
-
-// ── Plus button tokens ──────────────────────────────────
-const PLUS_ICON_SIZE = 28;
-const PLUS_ICON_COLOR = '#FFFFFF';
+import { COLORS } from '../../styles/theme/colors';
+import { ANIM_EASING, PLUS_ICON_COLOR, PLUS_ICON_SIZE } from '../config';
 
 // ── Animated Plus Button ────────────────────────────────
-export default function PlusButton({ onPress }: { onPress: () => void }) {
+export default React.memo(function PlusButton({ onPress }: { onPress: () => void }) {
   const breathScale = useSharedValue(1);
   const pressScale = useSharedValue(1);
 
@@ -24,7 +21,7 @@ export default function PlusButton({ onPress }: { onPress: () => void }) {
       -1,
       false,
     );
-  }, []);
+  }, [breathScale]);
 
   const iconAnimStyle = useAnimatedStyle(() => ({
     transform: [{ scale: breathScale.value * pressScale.value }],
@@ -45,7 +42,7 @@ export default function PlusButton({ onPress }: { onPress: () => void }) {
       onPressOut={handlePressOut}
       style={styles.plusTouchable}
       android_ripple={{
-        color: 'rgba(255, 255, 255, 0.12)',
+        color: COLORS.rippleLight,
         borderless: true,
         radius: 24,
       }}
@@ -55,7 +52,7 @@ export default function PlusButton({ onPress }: { onPress: () => void }) {
       </Animated.View>
     </Pressable>
   );
-}
+});
 
 // ── Styles ──────────────────────────────────────────────
 const styles = StyleSheet.create({

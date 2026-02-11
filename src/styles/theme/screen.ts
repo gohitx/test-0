@@ -1,7 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-// ── Shared color tokens ─────────────────────────────────
-export const SCREEN_BG = '#0D0D0F';
+import { COLORS } from './colors';
+
+// ── Re-export for convenience ───────────────────────────
+export const SCREEN_BG = COLORS.screenBg;
 
 // ── Shared screen styles ────────────────────────────────
 export const screenStyles = StyleSheet.create({
@@ -14,7 +16,7 @@ export const screenStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: '#FFFFFF',
+    color: COLORS.active,
     letterSpacing: -0.5,
   },
 });

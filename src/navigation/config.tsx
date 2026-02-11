@@ -2,12 +2,13 @@ import React from 'react';
 import { Easing } from 'react-native-reanimated';
 
 import { HomeOutline, HomeSolid, MessageOutline, MessageSolid, PlusIcon, UserOutline, UserSolid, WalletOutline, WalletSolid, } from '../components/icons/icons';
+import { COLORS } from '../styles/theme/colors';
 
 // ── Design tokens ───────────────────────────────────────
-export const BAR_BG = '#101014';
-export const ACTIVE_PILL_BG = '#8383837D';
-export const ACTIVE_COLOR = '#FFFFFF';
-export const INACTIVE_COLOR = '#6B6F80';
+export const BAR_BG = COLORS.barBg;
+export const ACTIVE_PILL_BG = COLORS.activePillBg;
+export const ACTIVE_COLOR = COLORS.active;
+export const INACTIVE_COLOR = COLORS.inactive;
 export const ICON_SIZE = 22;
 export const BAR_HEIGHT = 60;
 export const PILL_H = 40;
@@ -22,6 +23,15 @@ export const ANIM_BOUNCE_IN = 120;
 export const ANIM_BOUNCE_OUT = 150;
 export const ANIM_DURATION = 280;
 export const ANIM_EASING = Easing.bezier(0.4, 0, 0.2, 1);
+
+// ── Wave / SVG tokens ───────────────────────────────────
+export const WAVE_HEIGHT = 15;
+export const WAVE_CURVE_SPREAD = 125; // Half-width of the curve opening
+export const WAVE_CURVE_CP = 35;     // Control point offset for the Bézier
+
+// ── Plus button tokens ──────────────────────────────────
+export const PLUS_ICON_SIZE = 28;
+export const PLUS_ICON_COLOR = COLORS.active;
 
 // ── Tab config ──────────────────────────────────────────
 export type TabSide = 'left' | 'center' | 'right';

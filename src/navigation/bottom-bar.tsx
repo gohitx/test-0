@@ -1,13 +1,43 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 
+import { COLORS } from '../styles/theme/colors';
 import PlusButton from './plus/PlusButton';
 
-import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS_MAP, } from './config';
+import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS_MAP, WAVE_CURVE_CP, WAVE_CURVE_SPREAD, WAVE_HEIGHT, } from './config';
+
+// ── Memoized Center Tab ─────────────────────────────────
+// Prevents PlusButton re-renders on tab index changes
+const CenterTab = React.memo(function CenterTab({
+  routeKey,
+  routeName,
+  routeParams,
+  focused,
+  navigation,
+}: {
+  routeKey: string;
+  routeName: string;
+  routeParams: Record<string, unknown> | undefined;
+  focused: boolean;
+  navigation: BottomTabBarProps['navigation'];
+}) {
+  const onPress = useCallback(() => {
+    const event = navigation.emit({
+      type: 'tabPress',
+      target: routeKey,
+      canPreventDefault: true,
+    });
+    if (!focused && !event.defaultPrevented) {
+      navigation.navigate(routeName, routeParams);
+    }
+  }, [navigation, routeKey, routeName, routeParams, focused]);
+
+  return <PlusButton onPress={onPress} />;
+});
 
 // ── Animated Tab ────────────────────────────────────────
 const TabButton = React.memo(function TabButton({
@@ -22,7 +52,7 @@ const TabButton = React.memo(function TabButton({
   focused: boolean;
   routeKey: string;
   routeName: string;
-  routeParams: object | undefined;
+  routeParams: Record<string, unknown> | undefined;
   navigation: BottomTabBarProps['navigation'];
 }) {
   const onPress = useCallback(() => {
@@ -109,7 +139,7 @@ const TabButton = React.memo(function TabButton({
       onPress={onPress}
       style={styles.tabTouchable}
       android_ripple={{
-        color: 'rgba(255, 255, 255, 0.15)',
+        color: COLORS.ripple,
         borderless: true,
         radius: 28,
       }}
@@ -150,23 +180,33 @@ export default function BottomBar({
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
 
+  // Memoize SVG path strings — only recompute when screen width changes
+  const { fillPath, strokePath } = useMemo(() => {
+    const cx = width / 2;
+    const spread = WAVE_CURVE_SPREAD;
+    const cp = WAVE_CURVE_CP;
+    const h = WAVE_HEIGHT;
+
+    return {
+      fillPath: `M 0 ${h} L ${cx - spread} ${h} C ${cx - cp} ${h}, ${cx - cp} 0, ${cx} 0 C ${cx + cp} 0, ${cx + cp} ${h}, ${cx + spread} ${h} L ${width} ${h} Z`,
+      strokePath: `M 0 ${h} L ${cx - spread} ${h} C ${cx - cp} ${h}, ${cx - cp} 0, ${cx} 0 C ${cx + cp} 0, ${cx + cp} ${h}, ${cx + spread} ${h} L ${width} ${h}`,
+    };
+  }, [width]);
+
   return (
     <View style={[styles.barOuter, { paddingBottom: insets.bottom }]}>
       {/* Wave SVG Background top */}
       <View style={styles.waveContainer}>
-        <Svg height={15} width={width}>
+        <Svg height={WAVE_HEIGHT} width={width}>
           {/* Background Shape (Filled) */}
+          <Path d={fillPath} fill={BAR_BG} stroke="none" />
+          {/* Decorative stroke — aligned to fill path */}
           <Path
-            d={`M 0 15 L ${width / 2 - 75} 15 C ${width / 2 - 35} 15, ${width / 2 - 35} 0, ${width / 2} 0 C ${width / 2 + 35} 0, ${width / 2 + 35} 15, ${width / 2 + 75} 15 L ${width} 15 Z`}
-            fill={BAR_BG}
-            stroke="none"
-          />
-          <Path
-            d={`M 0 15 L ${width / 3 - 75} 15 C ${width / 2 - 35} 15, ${width / 2 - 35} 0, ${width / 2} 0 C ${width / 2 + 35} 0, ${width / 2 + 35} 15, ${width / 3 * 2 + 75} 15 L ${width} 15`}
+            d={strokePath}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.14)"
+            stroke={COLORS.waveStroke}
             strokeWidth={1}
-          /> 
+          />
         </Svg>
       </View>
 
@@ -177,19 +217,18 @@ export default function BottomBar({
 
           const focused = state.index === index;
 
-          // ── Render special Plus button for center tab ──
+          // ── Render memoized center tab with PlusButton ──
           if (tab.side === 'center') {
-            const onPlusPress = () => {
-              const event = navigation.emit({
-                type: 'tabPress',
-                target: route.key,
-                canPreventDefault: true,
-              });
-              if (!focused && !event.defaultPrevented) {
-                navigation.navigate(route.name, route.params);
-              }
-            };
-            return <PlusButton key={route.key} onPress={onPlusPress} />;
+            return (
+              <CenterTab
+                key={route.key}
+                routeKey={route.key}
+                routeName={route.name}
+                routeParams={route.params as Record<string, unknown> | undefined}
+                focused={focused}
+                navigation={navigation}
+              />
+            );
           }
 
           return (
@@ -199,7 +238,7 @@ export default function BottomBar({
               focused={focused}
               routeKey={route.key}
               routeName={route.name}
-              routeParams={route.params}
+              routeParams={route.params as Record<string, unknown> | undefined}
               navigation={navigation}
             />
           );
@@ -212,15 +251,13 @@ export default function BottomBar({
 // ── Styles ──────────────────────────────────────────────
 const styles = StyleSheet.create({
   barOuter: {
-    // Transparent background so wave is the only top edge
     backgroundColor: 'transparent',
-    // We need to ensure the bottom part is filled
     zIndex: 10,
   },
   waveContainer: {
-    height: 15,
+    height: WAVE_HEIGHT,
     width: '100%',
-    zIndex: 1, // Ensure wave is above content if needed, though usually just visual
+    zIndex: 1,
   },
   bar: {
     flexDirection: 'row',
