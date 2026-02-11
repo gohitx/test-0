@@ -1,23 +1,40 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import PlusButton from './plus/PlusButton';
 
-import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS, } from './config';
+import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS_MAP, } from './config';
 
 // ── Animated Tab ────────────────────────────────────────
 const TabButton = React.memo(function TabButton({
   tab,
   focused,
-  onPress,
+  routeKey,
+  routeName,
+  routeParams,
+  navigation,
 }: {
   tab: TabDef;
   focused: boolean;
-  onPress: () => void;
+  routeKey: string;
+  routeName: string;
+  routeParams: object | undefined;
+  navigation: BottomTabBarProps['navigation'];
 }) {
+  const onPress = useCallback(() => {
+    const event = navigation.emit({
+      type: 'tabPress',
+      target: routeKey,
+      canPreventDefault: true,
+    });
+    if (!focused && !event.defaultPrevented) {
+      navigation.navigate(routeName, routeParams);
+    }
+  }, [navigation, routeKey, routeName, routeParams, focused]);
+
   const pillOpacity = useSharedValue(focused ? 1 : 0);
   const labelWidth = useSharedValue(focused ? 1 : 0);
   const iconScale = useSharedValue(1);
@@ -61,7 +78,7 @@ const TabButton = React.memo(function TabButton({
         },
       );
     }
-  }, [focused]);
+  }, [focused, pillOpacity, labelWidth, iconScale, tab.hasLabel]);
 
   const pillStyle = useAnimatedStyle(() => ({
     opacity: pillOpacity.value,
@@ -138,25 +155,24 @@ export default function BottomBar({
 
       <View style={styles.bar}>
         {state.routes.map((route, index) => {
-          const tab = TABS.find(t => t.route === (route.name as TabRoute));
+          const tab = TABS_MAP.get(route.name as TabRoute);
           if (!tab) return null;
 
           const focused = state.index === index;
 
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-            if (!focused && !event.defaultPrevented) {
-              navigation.navigate(route.name, route.params);
-            }
-          };
-
           // ── Render special Plus button for center tab ──
           if (tab.side === 'center') {
-            return <PlusButton key={route.key} onPress={onPress} />;
+            const onPlusPress = () => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              });
+              if (!focused && !event.defaultPrevented) {
+                navigation.navigate(route.name, route.params);
+              }
+            };
+            return <PlusButton key={route.key} onPress={onPlusPress} />;
           }
 
           return (
@@ -164,7 +180,10 @@ export default function BottomBar({
               key={route.key}
               tab={tab}
               focused={focused}
-              onPress={onPress}
+              routeKey={route.key}
+              routeName={route.name}
+              routeParams={route.params}
+              navigation={navigation}
             />
           );
         })}

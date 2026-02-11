@@ -78,3 +78,8 @@ export const TABS: TabDef[] = [
     SolidIcon: UserSolid,
   },
 ];
+
+// Pre-computed map for O(1) tab lookups by route name
+export const TABS_MAP = new Map<TabRoute, TabDef>(
+  TABS.map(tab => [tab.route, tab]),
+);
