@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import PlusButton from './plus/PlusButton';
 
-import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS, } from './config';
+import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TabRoute, TABS, } from './config';
 
 // ── Animated Tab ────────────────────────────────────────
 const TabButton = React.memo(function TabButton({
@@ -40,6 +40,18 @@ const TabButton = React.memo(function TabButton({
     if (focused) {
       iconScale.value = withTiming(
         ICON_SCALE_BOUNCE,
+        { duration: ANIM_BOUNCE_IN, easing: ANIM_EASING },
+        () => {
+          iconScale.value = withTiming(1, {
+            duration: ANIM_BOUNCE_OUT,
+            easing: ANIM_EASING,
+          });
+        },
+      );
+    } else {
+      // Subtle shrink on deselect: 1 → 0.92 → 1
+      iconScale.value = withTiming(
+        ICON_SCALE_SHRINK,
         { duration: ANIM_BOUNCE_IN, easing: ANIM_EASING },
         () => {
           iconScale.value = withTiming(1, {

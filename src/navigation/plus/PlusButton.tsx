@@ -3,11 +3,11 @@ import { Pressable, StyleSheet } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { PlusIcon } from '../../components/icons/icons';
+import { ANIM_EASING } from '../config';
 
 // ── Plus button tokens ──────────────────────────────────
 const PLUS_ICON_SIZE = 28;
 const PLUS_ICON_COLOR = '#FFFFFF';
-const ANIM_EASING = Easing.bezier(0.4, 0, 0.2, 1);
 
 // ── Animated Plus Button ────────────────────────────────
 export default function PlusButton({ onPress }: { onPress: () => void }) {

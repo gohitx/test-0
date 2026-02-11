@@ -17,6 +17,7 @@ export const PILL_SCALE_ACTIVE_ADD = 0.3; // Adds up to 1.0 when active
 export const LABEL_SPACING = 7;
 export const LABEL_MAX_WIDTH = 70;
 export const ICON_SCALE_BOUNCE = 1.1;
+export const ICON_SCALE_SHRINK = 0.92;
 export const ANIM_BOUNCE_IN = 120;
 export const ANIM_BOUNCE_OUT = 150;
 export const ANIM_DURATION = 280;
