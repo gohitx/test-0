@@ -7,7 +7,7 @@ type WalletSolidProps = {
 
 export default function WalletSolid({
   size = 24,
-  color = '#141B34',
+  color = '#FFFFFF',
 }: WalletSolidProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">

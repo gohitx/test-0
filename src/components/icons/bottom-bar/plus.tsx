@@ -7,11 +7,10 @@ type PlusIconProps = {
 
 export default function PlusIcon({
   size = 24,
-  color = '#141B34',
+  color = '#FFFFFF',
 }: PlusIconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <Path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <Path
         d="M12 5l0 14"
         stroke={color}

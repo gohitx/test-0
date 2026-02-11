@@ -7,7 +7,7 @@ type Message2SolidProps = {
 
 export default function Message2Solid({
   size = 24,
-  color = '#141B34',
+  color = '#FFFFFF',
 }: Message2SolidProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">

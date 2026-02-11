@@ -7,7 +7,7 @@ type WalletOutlineProps = {
 
 export default function WalletOutline({
   size = 24,
-  color = '#141B34',
+  color = '#FFFFFF',
 }: WalletOutlineProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
