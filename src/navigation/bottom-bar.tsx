@@ -157,14 +157,14 @@ export default function BottomBar({
         <Svg height={15} width={width}>
           {/* Background Shape (Filled) */}
           <Path
-            d={`M 0 15 L 0 10 C ${width * 0.25} 5, ${width * 0.25} 15, ${width * 0.5} 10 C ${width * 0.75} 5, ${width * 0.75} 15, ${width} 10 L ${width} 15 Z`}
+            d={`M 0 15 L ${width / 2 - 75} 15 C ${width / 2 - 35} 15, ${width / 2 - 35} 0, ${width / 2} 0 C ${width / 2 + 35} 0, ${width / 2 + 35} 15, ${width / 2 + 75} 15 L ${width} 15 Z`}
             fill={BAR_BG}
             stroke="none"
           />
           <Path
-            d={`M 0 10 C ${width * 0.25} 5, ${width * 0.25} 15, ${width * 0.5} 10 C ${width * 0.75} 5, ${width * 0.75} 15, ${width} 10`}
+            d={`M 0 15 L ${width / 2 - 75} 15 C ${width / 2 - 35} 15, ${width / 2 - 35} 0, ${width / 2} 0 C ${width / 2 + 35} 0, ${width / 2 + 35} 15, ${width / 2 + 75} 15 L ${width} 15`}
             fill="none"
-            stroke="rgba(255, 255, 255, 0.32)"
+            stroke="rgba(255, 255, 255, 0.15)"
             strokeWidth={1}
           />
         </Svg>
@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     // Transparent background so wave is the only top edge
     backgroundColor: 'transparent',
     // We need to ensure the bottom part is filled
+    zIndex: 10,
   },
   waveContainer: {
     height: 15,
@@ -229,6 +230,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     paddingHorizontal: 10,
     overflow: 'visible', // Allow PlusButton to float outside
+    zIndex: 20,
   },
   tabTouchable: {
     flex: 1,
