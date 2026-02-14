@@ -10,10 +10,10 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen name="index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="message" options={{ title: 'Messages' }} />
-      <Tabs.Screen name="plus" options={{ title: 'Create' }} />
-      <Tabs.Screen name="wallet" options={{ title: 'Wallet' }} />
-      <Tabs.Screen name="user" options={{ title: 'Profile' }} />
+      <Tabs.Screen name="message/index" options={{ title: 'Messages' }} />
+      <Tabs.Screen name="plus/index" options={{ title: 'Create' }} />
+      <Tabs.Screen name="wallet/index" options={{ title: 'Wallet' }} />
+      <Tabs.Screen name="user/index" options={{ title: 'Profile' }} />
     </Tabs>
   );
 }
