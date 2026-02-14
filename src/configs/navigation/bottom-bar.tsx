@@ -1,15 +1,15 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Path } from 'react-native-svg';
 
 import { COLORS } from '../styles/theme/colors';
+
 import PlusButton from './plus/PlusButton';
 
 import {
@@ -33,9 +33,6 @@ import {
   PILL_SCALE_INACTIVE,
   TabDef,
   TABS,
-  WAVE_CURVE_CP,
-  WAVE_CURVE_SPREAD,
-  WAVE_HEIGHT,
 } from './config';
 
 // ── Memoized Center Tab ─────────────────────────────────
@@ -210,38 +207,8 @@ export default function BottomBar({
   navigation,
 }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
-
-  // Memoize SVG path strings — only recompute when screen width changes
-  const { fillPath, strokePath } = useMemo(() => {
-    const cx = width / 2;
-    const spread = WAVE_CURVE_SPREAD;
-    const cp = WAVE_CURVE_CP;
-    const h = WAVE_HEIGHT;
-
-    return {
-      fillPath: `M 0 ${h} L ${cx - spread} ${h} C ${cx - cp} ${h}, ${cx - cp} 0, ${cx} 0 C ${cx + cp} 0, ${cx + cp} ${h}, ${cx + spread} ${h} L ${width} ${h} Z`,
-      strokePath: `M 0 ${h} L ${cx - spread} ${h} C ${cx - cp} ${h}, ${cx - cp} 0, ${cx} 0 C ${cx + cp} 0, ${cx + cp} ${h}, ${cx + spread} ${h} L ${width} ${h}`,
-    };
-  }, [width]);
-
   return (
     <View style={[styles.barOuter, { paddingBottom: insets.bottom }]}>
-      {/* Wave SVG Background top */}
-      <View style={styles.waveContainer}>
-        <Svg height={WAVE_HEIGHT} width={width}>
-          {/* Background Shape (Filled) */}
-          <Path d={fillPath} fill={BAR_BG} stroke="none" />
-          {/* Decorative stroke — aligned to fill path */}
-          <Path
-            d={strokePath}
-            fill="none"
-            stroke={COLORS.waveStroke}
-            strokeWidth={1}
-          />
-        </Svg>
-      </View>
-
       <View style={styles.bar}>
         {TABS.map(tab => {
           const route = state.routes.find(routeItem => {
@@ -294,14 +261,10 @@ export default function BottomBar({
 // ── Styles ──────────────────────────────────────────────
 const styles = StyleSheet.create({
   barOuter: {
-    backgroundColor: 'transparent',
+    backgroundColor: BAR_BG, // Moved background color here to cover the safe area
     zIndex: 10,
   },
-  waveContainer: {
-    height: WAVE_HEIGHT,
-    width: '100%',
-    zIndex: 1,
-  },
+  // Removed waveContainer style
   bar: {
     flexDirection: 'row',
     backgroundColor: BAR_BG,
@@ -309,7 +272,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
     paddingHorizontal: 10,
-    overflow: 'visible', // Allow PlusButton to float outside
     zIndex: 20,
   },
   tabTouchable: {
