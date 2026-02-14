@@ -71,6 +71,7 @@ const TabButton = React.memo(function TabButton({
   const iconScale = useSharedValue(1);
 
   const isRight = tab.side === 'right';
+  const isHome = tab.route === 'index';
   const isWallet = tab.route === 'wallet';
 
   useEffect(() => {
@@ -158,6 +159,7 @@ const TabButton = React.memo(function TabButton({
           style={[
             styles.tabContent,
             isRight && styles.tabContentReversed,
+            isHome && styles.homeContentOffset,
             isWallet && styles.walletContentOffset,
           ]}
         >
@@ -283,6 +285,9 @@ const styles = StyleSheet.create({
   },
   tabContentReversed: {
     flexDirection: 'row-reverse',
+  },
+  homeContentOffset: {
+    transform: [{ translateX: 4 }],
   },
   walletContentOffset: {
     transform: [{ translateX: -5 }],
