@@ -1,10 +1,25 @@
-import { screenStyles } from '@/configs/styles/theme/screen';
-import { Text, View } from 'react-native';
+import { COLORS } from '@/configs/styles/theme/colors';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function WalletScreen() {
   return (
-    <View style={screenStyles.container}>
-      <Text style={screenStyles.title}>Wallet</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Wallet</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.screenBg,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: COLORS.active,
+    letterSpacing: -0.5,
+  },
+});

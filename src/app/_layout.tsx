@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../configs/styles/global.css';
-import { SCREEN_BG } from '../configs/styles/theme/screen';
+import { COLORS } from '../configs/styles/theme/colors';
 
 export default function RootLayout() {
   return (
@@ -11,7 +11,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          contentStyle: { backgroundColor: SCREEN_BG },
+          contentStyle: { backgroundColor: COLORS.screenBg },
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
