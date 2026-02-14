@@ -86,7 +86,7 @@ export const TABS: TabDef[] = [
   },
   {
     route: 'user',
-    label: 'Yo',
+    label: 'Me',
     hasLabel: true,
     side: 'right',
     OutlineIcon: UserOutline,
