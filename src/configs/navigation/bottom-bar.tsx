@@ -71,6 +71,7 @@ const TabButton = React.memo(function TabButton({
   const iconScale = useSharedValue(1);
 
   const isRight = tab.side === 'right';
+  const isWallet = tab.route === 'wallet';
 
   useEffect(() => {
     pillOpacity.value = withTiming(focused ? 1 : 0, {
@@ -153,7 +154,13 @@ const TabButton = React.memo(function TabButton({
         <Animated.View style={[styles.activePill, pillStyle]} />
 
         {/* Content — reversed for right-side tabs */}
-        <View style={[styles.tabContent, isRight && styles.tabContentReversed]}>
+        <View
+          style={[
+            styles.tabContent,
+            isRight && styles.tabContentReversed,
+            isWallet && styles.walletContentOffset,
+          ]}
+        >
           <Animated.View style={iconAnimStyle}>
             <Icon
               size={ICON_SIZE}
@@ -276,6 +283,9 @@ const styles = StyleSheet.create({
   },
   tabContentReversed: {
     flexDirection: 'row-reverse',
+  },
+  walletContentOffset: {
+    transform: [{ translateX: -5 }],
   },
   tabLabel: {
     color: ACTIVE_COLOR,
