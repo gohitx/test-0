@@ -2,9 +2,9 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
@@ -13,30 +13,29 @@ import { COLORS } from '../styles/theme/colors';
 import PlusButton from './plus/PlusButton';
 
 import {
-    ACTIVE_COLOR,
-    ACTIVE_PILL_BG,
-    ANIM_BOUNCE_IN,
-    ANIM_BOUNCE_OUT,
-    ANIM_DURATION,
-    ANIM_EASING,
-    BAR_BG,
-    BAR_HEIGHT,
-    ICON_SCALE_BOUNCE,
-    ICON_SCALE_SHRINK,
-    ICON_SIZE,
-    INACTIVE_COLOR,
-    LABEL_MAX_WIDTH,
-    LABEL_SPACING,
-    PILL_H,
-    PILL_RADIUS,
-    PILL_SCALE_ACTIVE_ADD,
-    PILL_SCALE_INACTIVE,
-    TabDef,
-    TabRoute,
-    TABS_MAP,
-    WAVE_CURVE_CP,
-    WAVE_CURVE_SPREAD,
-    WAVE_HEIGHT,
+  ACTIVE_COLOR,
+  ACTIVE_PILL_BG,
+  ANIM_BOUNCE_IN,
+  ANIM_BOUNCE_OUT,
+  ANIM_DURATION,
+  ANIM_EASING,
+  BAR_BG,
+  BAR_HEIGHT,
+  ICON_SCALE_BOUNCE,
+  ICON_SCALE_SHRINK,
+  ICON_SIZE,
+  INACTIVE_COLOR,
+  LABEL_MAX_WIDTH,
+  LABEL_SPACING,
+  PILL_H,
+  PILL_RADIUS,
+  PILL_SCALE_ACTIVE_ADD,
+  PILL_SCALE_INACTIVE,
+  TabDef,
+  TABS,
+  WAVE_CURVE_CP,
+  WAVE_CURVE_SPREAD,
+  WAVE_HEIGHT,
 } from './config';
 
 // ── Memoized Center Tab ─────────────────────────────────
@@ -244,14 +243,20 @@ export default function BottomBar({
       </View>
 
       <View style={styles.bar}>
-        {state.routes.map((route, index) => {
-          const normalizedRouteName = route.name.endsWith('/index')
-            ? route.name.replace('/index', '')
-            : route.name;
-          const tab = TABS_MAP.get(normalizedRouteName as TabRoute);
-          if (!tab) return null;
+        {TABS.map(tab => {
+          const route = state.routes.find(routeItem => {
+            const normalizedRouteName = routeItem.name.endsWith('/index')
+              ? routeItem.name.replace('/index', '')
+              : routeItem.name;
+            return normalizedRouteName === tab.route;
+          });
 
-          const focused = state.index === index;
+          if (!route) return null;
+
+          const routeIndex = state.routes.findIndex(
+            routeItem => routeItem.key === route.key,
+          );
+          const focused = state.index === routeIndex;
 
           // ── Render memoized center tab with PlusButton ──
           if (tab.side === 'center') {
