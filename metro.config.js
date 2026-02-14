@@ -7,7 +7,7 @@ const config = getDefaultConfig(__dirname);
 
 module.exports = withUniwindConfig(config, {
   // relative path to your global.css file (from previous step)
-  cssEntryFile: './src/styles/global.css',
+  cssEntryFile: './src/configs/styles/global.css',
   // (optional) path where we gonna auto-generate typings
   // defaults to project's root
   dtsFile: './uniwind-types.d.ts',

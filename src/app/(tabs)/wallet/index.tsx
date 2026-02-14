@@ -1,4 +1,4 @@
-import { screenStyles } from '@/config/styles/theme/screen';
+import { screenStyles } from '@/configs/styles/theme/screen';
 import { Text, View } from 'react-native';
 
 export default function WalletScreen() {
