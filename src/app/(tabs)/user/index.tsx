@@ -1,5 +1,5 @@
+import { screenStyles } from '@/config/styles/theme/screen';
 import { Text, View } from 'react-native';
-import { screenStyles } from '../../styles/theme/screen';
 
 export default function UserScreen() {
   return (

@@ -1,13 +1,24 @@
 import React, { useEffect } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
-import { PlusIcon } from '../../components/icons/icons';
+import { PlusIcon } from '../../../components/icons/icons';
 import { COLORS } from '../../styles/theme/colors';
 import { ANIM_EASING, PLUS_ICON_COLOR, PLUS_ICON_SIZE } from '../config';
 
 // ── Animated Plus Button ────────────────────────────────
-export default React.memo(function PlusButton({ onPress }: { onPress: () => void }) {
+export default React.memo(function PlusButton({
+  onPress,
+}: {
+  onPress: () => void;
+}) {
   const breathScale = useSharedValue(1);
   const pressScale = useSharedValue(1);
 

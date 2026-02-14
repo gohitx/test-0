@@ -1,8 +1,18 @@
 import React from 'react';
 import { Easing } from 'react-native-reanimated';
 
-import { HomeOutline, HomeSolid, MessageOutline, MessageSolid, PlusIcon, UserOutline, UserSolid, WalletOutline, WalletSolid, } from '../components/icons/icons';
-import { COLORS } from '../styles/theme/colors';
+import { COLORS } from '@/config/styles/theme/colors';
+import {
+  HomeOutline,
+  HomeSolid,
+  MessageOutline,
+  MessageSolid,
+  PlusIcon,
+  UserOutline,
+  UserSolid,
+  WalletOutline,
+  WalletSolid,
+} from '../../components/icons/icons';
 
 // ── Design tokens ───────────────────────────────────────
 export const BAR_BG = COLORS.barBg;
@@ -27,7 +37,7 @@ export const ANIM_EASING = Easing.bezier(0.4, 0, 0.2, 1);
 // ── Wave / SVG tokens ───────────────────────────────────
 export const WAVE_HEIGHT = 15;
 export const WAVE_CURVE_SPREAD = 125; // Half-width of the curve opening
-export const WAVE_CURVE_CP = 35;     // Control point offset for the Bézier
+export const WAVE_CURVE_CP = 35; // Control point offset for the Bézier
 
 // ── Plus button tokens ──────────────────────────────────
 export const PLUS_ICON_SIZE = 28;
