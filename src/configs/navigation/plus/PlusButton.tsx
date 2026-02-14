@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSequence,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { PlusIcon } from '../../../components/icons/icons';
 import { COLORS } from '../../styles/theme/colors';

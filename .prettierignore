@@ -3,4 +3,5 @@
 # Prettier ignore folders
 ```ignore
 src/navigation/
+src/configs/
 ```
