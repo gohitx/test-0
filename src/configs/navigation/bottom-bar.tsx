@@ -39,7 +39,7 @@ const CenterTab = React.memo(function CenterTab({
   return <PlusButton onPress={onPress} />;
 });
 
-// ── Animated Tab ────────────────────────────────────────
+// ── MARK: Animated Tab ────────────────────────────────────────
 const TabButton = React.memo(function TabButton({
   tab,
   focused,
@@ -182,7 +182,7 @@ const TabButton = React.memo(function TabButton({
   );
 });
 
-// ── Bottom Bar ──────────────────────────────────────────
+// ── MARK:Bottom Bar ──────────────────────────────────────────
 export default function BottomBar({
   state,
   descriptors,
@@ -240,7 +240,7 @@ export default function BottomBar({
   );
 }
 
-// ── Styles ──────────────────────────────────────────────
+// ── MARK: Styles ──────────────────────────────────────────────
 const styles = StyleSheet.create({
   barOuter: {
     backgroundColor: BAR_BG, // Moved background color here to cover the safe area
