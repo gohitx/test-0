@@ -1,5 +1,5 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,8 +10,40 @@ import PlusButton from './plus/PlusButton';
 
 import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TABS } from './config';
 
-// ── Memoized Center Tab ─────────────────────────────────
-// Prevents PlusButton re-renders on tab index changes
+type RouteParams = Record<string, unknown> | undefined;
+
+function normalizeRouteName(routeName: string): string {
+  return routeName.endsWith('/index')
+    ? routeName.replace('/index', '')
+    : routeName;
+}
+
+function useTabPress({
+  navigation,
+  routeKey,
+  routeName,
+  routeParams,
+  focused,
+}: {
+  navigation: BottomTabBarProps['navigation'];
+  routeKey: string;
+  routeName: string;
+  routeParams: RouteParams;
+  focused: boolean;
+}) {
+  return useCallback(() => {
+    const event = navigation.emit({
+      type: 'tabPress',
+      target: routeKey,
+      canPreventDefault: true,
+    });
+
+    if (!focused && !event.defaultPrevented) {
+      navigation.navigate(routeName, routeParams);
+    }
+  }, [navigation, routeKey, routeName, routeParams, focused]);
+}
+
 const CenterTab = React.memo(function CenterTab({
   routeKey,
   routeName,
@@ -21,25 +53,21 @@ const CenterTab = React.memo(function CenterTab({
 }: {
   routeKey: string;
   routeName: string;
-  routeParams: Record<string, unknown> | undefined;
+  routeParams: RouteParams;
   focused: boolean;
   navigation: BottomTabBarProps['navigation'];
 }) {
-  const onPress = useCallback(() => {
-    const event = navigation.emit({
-      type: 'tabPress',
-      target: routeKey,
-      canPreventDefault: true,
-    });
-    if (!focused && !event.defaultPrevented) {
-      navigation.navigate(routeName, routeParams);
-    }
-  }, [navigation, routeKey, routeName, routeParams, focused]);
+  const onPress = useTabPress({
+    navigation,
+    routeKey,
+    routeName,
+    routeParams,
+    focused,
+  });
 
   return <PlusButton onPress={onPress} />;
 });
 
-// ── MARK: Animated Tab ────────────────────────────────────────
 const TabButton = React.memo(function TabButton({
   tab,
   focused,
@@ -52,19 +80,16 @@ const TabButton = React.memo(function TabButton({
   focused: boolean;
   routeKey: string;
   routeName: string;
-  routeParams: Record<string, unknown> | undefined;
+  routeParams: RouteParams;
   navigation: BottomTabBarProps['navigation'];
 }) {
-  const onPress = useCallback(() => {
-    const event = navigation.emit({
-      type: 'tabPress',
-      target: routeKey,
-      canPreventDefault: true,
-    });
-    if (!focused && !event.defaultPrevented) {
-      navigation.navigate(routeName, routeParams);
-    }
-  }, [navigation, routeKey, routeName, routeParams, focused]);
+  const onPress = useTabPress({
+    navigation,
+    routeKey,
+    routeName,
+    routeParams,
+    focused,
+  });
 
   const pillOpacity = useSharedValue(focused ? 1 : 0);
   const labelWidth = useSharedValue(focused ? 1 : 0);
@@ -127,8 +152,6 @@ const TabButton = React.memo(function TabButton({
     return {
       opacity: labelWidth.value,
       maxWidth: labelWidth.value * LABEL_MAX_WIDTH,
-      // Right-side tabs: margin on the right (label is before icon)
-      // Left-side tabs: margin on the left (label is after icon)
       marginLeft: isRight ? 0 : spacing,
       marginRight: isRight ? spacing : 0,
     };
@@ -151,10 +174,8 @@ const TabButton = React.memo(function TabButton({
       }}
     >
       <View style={styles.tabInner}>
-        {/* Background pill — only visible when active */}
         <Animated.View style={[styles.activePill, pillStyle]} />
 
-        {/* Content — reversed for right-side tabs */}
         <View
           style={[
             styles.tabContent,
@@ -184,29 +205,31 @@ const TabButton = React.memo(function TabButton({
   );
 });
 
-// ── MARK:Bottom Bar ──────────────────────────────────────────
 export default function BottomBar({
   state,
-  descriptors,
   navigation,
 }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const routesByName = useMemo(
+    () =>
+      new Map(
+        state.routes.map((route, index) => [
+          normalizeRouteName(route.name),
+          { route, index },
+        ]),
+      ),
+    [state.routes],
+  );
+
   return (
     <View style={[styles.barOuter, { paddingBottom: insets.bottom }]}>
       <View style={styles.bar}>
         {TABS.map(tab => {
-          const route = state.routes.find(routeItem => {
-            const normalizedRouteName = routeItem.name.endsWith('/index')
-              ? routeItem.name.replace('/index', '')
-              : routeItem.name;
-            return normalizedRouteName === tab.route;
-          });
+          const routeEntry = routesByName.get(tab.route);
 
-          if (!route) return null;
+          if (!routeEntry) return null;
 
-          const routeIndex = state.routes.findIndex(
-            routeItem => routeItem.key === route.key,
-          );
+          const { route, index: routeIndex } = routeEntry;
           const focused = state.index === routeIndex;
 
           // ── Render memoized center tab with PlusButton ──
@@ -216,9 +239,7 @@ export default function BottomBar({
                 key={route.key}
                 routeKey={route.key}
                 routeName={route.name}
-                routeParams={
-                  route.params as Record<string, unknown> | undefined
-                }
+                routeParams={route.params as RouteParams}
                 focused={focused}
                 navigation={navigation}
               />
@@ -232,7 +253,7 @@ export default function BottomBar({
               focused={focused}
               routeKey={route.key}
               routeName={route.name}
-              routeParams={route.params as Record<string, unknown> | undefined}
+              routeParams={route.params as RouteParams}
               navigation={navigation}
             />
           );
@@ -242,13 +263,11 @@ export default function BottomBar({
   );
 }
 
-// ── MARK: Styles ──────────────────────────────────────────────
 const styles = StyleSheet.create({
   barOuter: {
-    backgroundColor: BAR_BG, // Moved background color here to cover the safe area
+    backgroundColor: BAR_BG,
     zIndex: 10,
   },
-  // Removed waveContainer style
   bar: {
     flexDirection: 'row',
     backgroundColor: BAR_BG,
@@ -287,7 +306,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   homeContentOffset: {
-    transform: [{ translateX: 4 }],
+    transform: [{ translateX: 3 }],
   },
   walletContentOffset: {
     transform: [{ translateX: -5 }],
