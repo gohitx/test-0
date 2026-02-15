@@ -1,7 +1,8 @@
+import '../configs/styles/global.css';
+
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import '../configs/styles/global.css';
 
 const SCREEN_BG = '#0D0D0F';
 
@@ -16,6 +17,16 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/* Animation: transition Right */}
+        <Stack.Screen
+          name="screen/settings"
+          options={{
+            headerShown: false,
+            animation: 'slide_from_right',
+            presentation: 'card',
+          }}
+        />
+        {/*  */}
       </Stack>
     </SafeAreaProvider>
   );
