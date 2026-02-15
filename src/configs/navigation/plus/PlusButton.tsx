@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, cancelAnimation, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { PlusIcon } from '../../../components/icons/icons';
 import { COLORS } from '../../styles/theme/colors';
@@ -16,15 +16,20 @@ export default React.memo(function PlusButton({
   const pressScale = useSharedValue(1);
 
   useEffect(() => {
-    // Gentle breathing: 1.0 → 1.08 → 1.0, infinite
+    // Gentle breathing: 1.0 → 1.04 → 1.0, infinite
     breathScale.value = withRepeat(
       withSequence(
-        withTiming(1.08, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1, { duration: 2200, easing: Easing.inOut(Easing.ease) }),
+        withTiming(1.04, { duration: 2800, easing: Easing.inOut(Easing.ease) }),
+        withTiming(1, { duration: 2800, easing: Easing.inOut(Easing.ease) }),
       ),
       -1,
       false,
     );
+
+    return () => {
+      cancelAnimation(breathScale);
+      cancelAnimation(pressScale);
+    };
   }, [breathScale]);
 
   const iconAnimStyle = useAnimatedStyle(() => ({
