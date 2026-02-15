@@ -1,14 +1,18 @@
 import React from 'react';
 
-import { COLORS } from '@/configs/styles/theme/colors';
 import { Easing } from 'react-native-reanimated';
 import { HomeOutline, HomeSolid, MessageOutline, MessageSolid, PlusIcon, UserOutline, UserSolid, WalletOutline, WalletSolid, } from '../../components/icons/icons';
 
+const BAR_BG_COLOR = '#101014';
+const ACTIVE_PILL_BG_COLOR = '#8383837D';
+const ACTIVE_COLOR_VALUE = '#FFFFFF';
+const INACTIVE_COLOR_VALUE = '#6B6F80';
+
 // ── Design tokens ───────────────────────────────────────
-export const BAR_BG = COLORS.barBg;
-export const ACTIVE_PILL_BG = COLORS.activePillBg;
-export const ACTIVE_COLOR = COLORS.active;
-export const INACTIVE_COLOR = COLORS.inactive;
+export const BAR_BG = BAR_BG_COLOR;
+export const ACTIVE_PILL_BG = ACTIVE_PILL_BG_COLOR;
+export const ACTIVE_COLOR = ACTIVE_COLOR_VALUE;
+export const INACTIVE_COLOR = INACTIVE_COLOR_VALUE;
 export const ICON_SIZE = 22;
 export const BAR_HEIGHT = 60;
 export const PILL_H = 40;
@@ -26,7 +30,7 @@ export const ANIM_EASING = Easing.bezier(0.4, 0, 0.2, 1);
 
 // ── Plus button tokens ──────────────────────────────────
 export const PLUS_ICON_SIZE = 28;
-export const PLUS_ICON_COLOR = COLORS.active;
+export const PLUS_ICON_COLOR = ACTIVE_COLOR_VALUE;
 
 // ── Tab config ──────────────────────────────────────────
 export type TabSide = 'left' | 'center' | 'right';

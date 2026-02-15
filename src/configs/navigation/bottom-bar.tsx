@@ -6,7 +6,8 @@ import PlusButton from './plus/PlusButton';
 
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { COLORS } from '../styles/theme/colors';
+
+const RIPPLE_COLOR = 'rgba(255, 255, 255, 0.15)';
 
 import { ACTIVE_COLOR, ACTIVE_PILL_BG, ANIM_BOUNCE_IN, ANIM_BOUNCE_OUT, ANIM_DURATION, ANIM_EASING, BAR_BG, BAR_HEIGHT, ICON_SCALE_BOUNCE, ICON_SCALE_SHRINK, ICON_SIZE, INACTIVE_COLOR, LABEL_MAX_WIDTH, LABEL_SPACING, PILL_H, PILL_RADIUS, PILL_SCALE_ACTIVE_ADD, PILL_SCALE_INACTIVE, TabDef, TABS } from './config';
 
@@ -168,7 +169,7 @@ const TabButton = React.memo(function TabButton({
       onPress={onPress}
       style={styles.tabTouchable}
       android_ripple={{
-        color: COLORS.ripple,
+        color: RIPPLE_COLOR,
         borderless: true,
         radius: 28,
       }}

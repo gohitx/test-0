@@ -1,5 +1,7 @@
-import { COLORS } from '@/configs/styles/theme/colors';
 import { StyleSheet, Text, View } from 'react-native';
+
+const SCREEN_BG = '#0D0D0F';
+const TEXT_ACTIVE = '#FFFFFF';
 
 export default function WalletScreen() {
   return (
@@ -14,12 +16,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.screenBg,
+    backgroundColor: SCREEN_BG,
   },
   title: {
     fontSize: 28,
     fontWeight: '700',
-    color: COLORS.active,
+    color: TEXT_ACTIVE,
     letterSpacing: -0.5,
   },
 });

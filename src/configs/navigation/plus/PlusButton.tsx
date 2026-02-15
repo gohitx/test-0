@@ -3,8 +3,9 @@ import { Pressable, StyleSheet } from 'react-native';
 import Animated, { Easing, cancelAnimation, useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 
 import { PlusIcon } from '../../../components/icons/icons';
-import { COLORS } from '../../styles/theme/colors';
 import { ANIM_EASING, PLUS_ICON_COLOR, PLUS_ICON_SIZE } from '../config';
+
+const RIPPLE_LIGHT_COLOR = 'rgba(255, 255, 255, 0.12)';
 
 // ── Animated Plus Button ────────────────────────────────
 export default React.memo(function PlusButton({
@@ -51,7 +52,7 @@ export default React.memo(function PlusButton({
       onPressOut={handlePressOut}
       style={styles.plusTouchable}
       android_ripple={{
-        color: COLORS.rippleLight,
+        color: RIPPLE_LIGHT_COLOR,
         borderless: true,
         radius: 24,
       }}
