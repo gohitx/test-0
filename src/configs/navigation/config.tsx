@@ -1,7 +1,7 @@
 import React from 'react';
-import { Easing } from 'react-native-reanimated';
 
 import { COLORS } from '@/configs/styles/theme/colors';
+import { Easing } from 'react-native-reanimated';
 import { HomeOutline, HomeSolid, MessageOutline, MessageSolid, PlusIcon, UserOutline, UserSolid, WalletOutline, WalletSolid, } from '../../components/icons/icons';
 
 // ── Design tokens ───────────────────────────────────────
