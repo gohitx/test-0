@@ -11,7 +11,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SCREEN_BG = '#0D0D0F';
-const CARD_BG = '#151517'; // Slightly lighter for contrast
+const CARD_BG = '#151517';
 const TEXT_PRIMARY = '#FFFFFF';
 const TEXT_SECONDARY = '#A1A1AA';
 const SEPARATOR = '#27272A';
@@ -19,12 +19,21 @@ const ACTIVE_COLOR = '#EE0E94';
 
 type ThemeOption = 'automatic' | 'light' | 'dark';
 
+const THEME_OPTIONS: {
+  label: string;
+  value: ThemeOption;
+  Icon: typeof Smartphone;
+}[] = [
+  { label: 'Automatic', value: 'automatic', Icon: Smartphone },
+  { label: 'Light', value: 'light', Icon: Sun },
+  { label: 'Dark', value: 'dark', Icon: Moon },
+];
+
 export default function SettingsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const [selectedTheme, setSelectedTheme] = useState<ThemeOption>('automatic');
 
-  // Helper to render radio button
   const RadioButton = ({ selected }: { selected: boolean }) => (
     <View style={[styles.radioBase, selected && styles.radioSelected]}>
       {selected && <View style={styles.radioInner} />}
@@ -33,7 +42,6 @@ export default function SettingsScreen() {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => router.back()}
@@ -46,48 +54,29 @@ export default function SettingsScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Theme Section */}
         <Text style={styles.sectionHeader}>Theme</Text>
         <View style={styles.card}>
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => setSelectedTheme('automatic')}
-            activeOpacity={0.7}
-          >
-            <View style={styles.rowLeft}>
-              <Smartphone color={TEXT_PRIMARY} size={20} />
-              <Text style={styles.rowLabel}>Automatic</Text>
-            </View>
-            <RadioButton selected={selectedTheme === 'automatic'} />
-          </TouchableOpacity>
+          {THEME_OPTIONS.map((option, index) => {
+            const isLast = index === THEME_OPTIONS.length - 1;
+            const Icon = option.Icon;
 
-          <View style={styles.separator} />
-
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => setSelectedTheme('light')}
-            activeOpacity={0.7}
-          >
-            <View style={styles.rowLeft}>
-              <Sun color={TEXT_PRIMARY} size={20} />
-              <Text style={styles.rowLabel}>Light</Text>
-            </View>
-            <RadioButton selected={selectedTheme === 'light'} />
-          </TouchableOpacity>
-
-          <View style={styles.separator} />
-
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() => setSelectedTheme('dark')}
-            activeOpacity={0.7}
-          >
-            <View style={styles.rowLeft}>
-              <Moon color={TEXT_PRIMARY} size={20} />
-              <Text style={styles.rowLabel}>Dark</Text>
-            </View>
-            <RadioButton selected={selectedTheme === 'dark'} />
-          </TouchableOpacity>
+            return (
+              <View key={option.value}>
+                <TouchableOpacity
+                  style={styles.row}
+                  onPress={() => setSelectedTheme(option.value)}
+                  activeOpacity={0.7}
+                >
+                  <View style={styles.rowLeft}>
+                    <Icon color={TEXT_PRIMARY} size={20} />
+                    <Text style={styles.rowLabel}>{option.label}</Text>
+                  </View>
+                  <RadioButton selected={selectedTheme === option.value} />
+                </TouchableOpacity>
+                {!isLast && <View style={styles.separator} />}
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
     </View>
@@ -111,7 +100,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: TEXT_PRIMARY,
-    fontSize: 24, // Matches standard large title somewhat, but inline
+    fontSize: 24,
     fontWeight: '700',
   },
   scrollContent: {
@@ -125,7 +114,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginTop: 24,
     marginLeft: 4,
-    textTransform: 'uppercase', // Optional style choice, looks clean
+    textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   card: {
@@ -150,36 +139,17 @@ const styles = StyleSheet.create({
     color: TEXT_PRIMARY,
     fontWeight: '500',
   },
-  rowLabelNoIcon: {
-    fontSize: 16,
-    color: TEXT_PRIMARY,
-    fontWeight: '500',
-  },
-  rowValue: {
-    fontSize: 16,
-    color: TEXT_SECONDARY,
-    fontWeight: '400',
-  },
   separator: {
-    height: StyleSheet.hairlineWidth, // Thin separator
+    height: StyleSheet.hairlineWidth,
     backgroundColor: SEPARATOR,
-    marginLeft: 16 + 20 + 12, // Align with text (icon size + gap + padding)
+    marginLeft: 16 + 20 + 12,
   },
-  footerText: {
-    marginTop: 8,
-    marginBottom: 8,
-    marginHorizontal: 4,
-    fontSize: 13,
-    color: TEXT_SECONDARY,
-    lineHeight: 18,
-  },
-  // Radio Button Styles
   radioBase: {
     width: 20,
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#52525B', // Zinc-600
+    borderColor: '#52525B',
     alignItems: 'center',
     justifyContent: 'center',
   },
