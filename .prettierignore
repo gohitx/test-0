@@ -1,7 +1,7 @@
 # Prettier ignore file
 
 # Prettier ignore folders
-```ignore
 src/navigation/
 src/configs/
-```
+
+src/app/screen/settings.tsx

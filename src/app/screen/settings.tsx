@@ -1,13 +1,8 @@
 import { useRouter } from 'expo-router';
-import { ChevronLeft, Moon, Smartphone, Sun } from 'lucide-react-native';
 import { useState } from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+
+import { ChevronLeft, Moon, Smartphone, Sun } from 'lucide-react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SCREEN_BG = '#0D0D0F';
