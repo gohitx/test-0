@@ -5,7 +5,7 @@ Regla aplicada:
 - Se muestran **solo carpetas** dentro de `src`.
 - Excepción: en `app` se muestra **todo** (carpetas y archivos).
 
-```text
+```sh
 src/
 ├── app/                      # Expo Router app structure
 │   ├── _layout.tsx           # Root app layout
@@ -21,7 +21,7 @@ src/
 │       │   └── index.tsx     # User screen
 │       └── wallet/           # Wallet tab
 │           └── index.tsx     # Wallet screen
-├── assets/                   # Static assets
+├── assets/
 ├── components/               # Reusable UI components
 │   ├── errors/               # Error-related components
 │   ├── icons/                # Icon components
@@ -29,6 +29,10 @@ src/
 ├── configs/                  # App configuration
 │   ├── navigation/           # Navigation setup
 │   └── styles/               # Global styles and theme
+│       ├── global.css        # Global style imports (Tailwind + Uniwind)
+│       └── theme/            # Theme tokens by mode
+│           ├── dark.ts       # Dark theme colors
+│           └── light.ts      # Light theme colors
 ├── constants/                # Global constants
 ├── hooks/                    # Custom React hooks
 └── services/                 # Service layer
