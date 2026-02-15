@@ -12,3 +12,6 @@ export { default as UserSolid } from './bottom-bar/solid/user';
 export { default as WalletSolid } from './bottom-bar/solid/wallet';
 
 // Others Icons
+export { default as MenuIcon } from './others/menu';
+export { default as SettingsIcon } from './others/settings';
+

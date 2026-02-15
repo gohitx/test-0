@@ -1,15 +1,30 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 24 24"
-  width="24"
-  height="24"
-  color="currentColor"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="3"
-  stroke-linecap="round"
-  stroke-linejoin="round"
->
-  <path d="M20 12L10 12" />
-  <path d="M20 5L4 5" />
-</svg>;
+import Svg, { Path } from 'react-native-svg';
+
+type MenuIconProps = {
+  size?: number;
+  color?: string;
+};
+
+export default function MenuIcon({
+  size = 24,
+  color = '#FFFFFF',
+}: MenuIconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path
+        d="M20 12L10 12"
+        stroke={color}
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M20 5L4 5"
+        stroke={color}
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
