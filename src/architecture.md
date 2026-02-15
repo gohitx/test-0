@@ -1,9 +1,10 @@
-# Arquitectura de `src`
+# Architecture of `src`
 
-Regla aplicada:
+Rule applied:
 
-- Se muestran **solo carpetas** dentro de `src`.
-- Excepción: en `app` se muestra **todo** (carpetas y archivos).
+- Only **folders** inside `src` are shown.
+- Exception: in `app` **everything** is shown (folders and files).
+- Also, the new structural files you created in `styles` and `hooks` are included.
 
 ```sh
 src/
@@ -30,11 +31,15 @@ src/
 │   ├── navigation/           # Navigation setup
 │   └── styles/               # Global styles and theme
 │       ├── global.css        # Global style imports (Tailwind + Uniwind)
+│       ├── styles.ts         # Central styles file
 │       └── theme/            # Theme tokens by mode
 │           ├── dark.ts       # Dark theme colors
 │           └── light.ts      # Light theme colors
 ├── constants/                # Global constants
 ├── hooks/                    # Custom React hooks
+│   ├── hooks.ts              # Central hooks file
+│   └── theme/
+│       └── use-theme.ts      # Theme hook
 └── services/                 # Service layer
     ├── ai/                   # AI-related services
     └── backend/              # Backend integrations
