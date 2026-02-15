@@ -6,7 +6,7 @@ type MenuIconProps = {
 };
 
 export default function MenuIcon({
-  size = 24,
+  size = 31,
   color = '#FFFFFF',
 }: MenuIconProps) {
   return (
@@ -14,14 +14,14 @@ export default function MenuIcon({
       <Path
         d="M20 12L10 12"
         stroke={color}
-        strokeWidth={1.8}
+        strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <Path
         d="M20 5L4 5"
         stroke={color}
-        strokeWidth={1.8}
+        strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
