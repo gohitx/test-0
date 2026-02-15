@@ -1,24 +1,24 @@
-import MenuIcon from '@/components/icons/others/menu';
 import { useRouter } from 'expo-router';
+import { ChevronLeft } from 'lucide-react-native';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SCREEN_BG = '#0D0D0F';
 const TEXT_ACTIVE = '#FFFFFF';
 
-export default function UserScreen() {
+export default function SettingsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push('/screen/settings')}>
-          <MenuIcon color={TEXT_ACTIVE} />
+        <TouchableOpacity onPress={() => router.back()}>
+          <ChevronLeft color={TEXT_ACTIVE} size={28} />
         </TouchableOpacity>
       </View>
       <View style={styles.content}>
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.text}>setting screen</Text>
       </View>
     </View>
   );
@@ -30,20 +30,18 @@ const styles = StyleSheet.create({
     backgroundColor: SCREEN_BG,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 15,
+    alignItems: 'flex-start',
   },
   content: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
+  text: {
     color: TEXT_ACTIVE,
-    letterSpacing: -0.5,
+    fontSize: 24,
+    fontWeight: '600',
   },
 });
