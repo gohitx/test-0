@@ -22,24 +22,32 @@ src/
 │       │   └── index.tsx     # User screen
 │       └── wallet/           # Wallet tab
 │           └── index.tsx     # Wallet screen
+│   └── screen/                # Stack screens
+│       ├── billing.tsx        # Billing screen
+│       └── settings.tsx       # Settings screen
 ├── assets/
 ├── components/               # Reusable UI components
 │   ├── errors/               # Error-related components
 │   ├── icons/                # Icon components
 │   └── ui/                   # Shared UI primitives
 ├── configs/                  # App configuration
+│   ├── i18n/                  # Localization
 │   ├── navigation/           # Navigation setup
 │   └── styles/               # Global styles and theme
 │       ├── global.css        # Global style imports (Tailwind + Uniwind)
-│       ├── styles.ts         # Central styles file
 │       └── theme/            # Theme tokens by mode
-│           ├── dark.ts       # Dark theme colors
-│           └── light.ts      # Light theme colors
+│           ├── colors/
+│           │   ├── dark.ts   # Dark theme colors
+│           │   └── light.ts  # Light theme colors
+│           ├── state/
+│           │   ├── hook/
+│           │   │   └── use-theme.ts
+│           │   ├── store/
+│           │   │   └── theme-store.ts
+│           │   └── types.ts
+│           └── theme.ts
 ├── constants/                # Global constants
 ├── hooks/                    # Custom React hooks
-│   ├── hooks.ts              # Central hooks file
-│   └── theme/
-│       └── use-theme.ts      # Theme hook
 └── services/                 # Service layer
     ├── ai/                   # AI-related services
     └── backend/              # Backend integrations
